@@ -1,36 +1,178 @@
-# template ts browser
+# meta-tags
+[![tests](https://img.shields.io/github/actions/workflow/status/substrate-system/meta-tags/nodejs.yml?style=flat-square)](https://github.com/substrate-system/meta-tags/actions/workflows/nodejs.yml)
+[![types](https://img.shields.io/npm/types/@substrate-system/meta-tags?style=flat-square)](README.md)
+[![module](https://img.shields.io/badge/module-ESM%2FCJS-blue?style=flat-square)](README.md)
+[![semantic versioning](https://img.shields.io/badge/semver-2.0.0-blue?logo=semver&style=flat-square)](https://semver.org/)
+[![Common Changelog](https://nichoth.github.io/badge/common-changelog.svg)](./CHANGELOG.md)
+[![install size](https://flat.badgen.net/packagephobia/install/@substrate-system/meta-tags)](https://packagephobia.com/result?p=@substrate-system/meta-tags)
+[![dependencies](https://img.shields.io/badge/dependencies-zero-brightgreen.svg?style=flat-square)](package.json)
+[![license](https://img.shields.io/badge/license-Big_Time-blue?style=flat-square)](LICENSE)
 
-A template for typescript *dependency* modules that run in a browser environment.
-Uses `tape-run` for tests in a browser. See [template-ts](https://github.com/nichoth/template-ts) for the same thing but targeting Node.
 
-## use
-1. Use the template button in github. Or clone this then
-`rm -rf .git && git init`. Then `npm i && npm init`.
+Generate Open Graph meta tags and Cloudinary image URLs for social
+media previews.
 
-2. Edit the source code in `src/index.ts`.
+<details><summary><h2>Contents</h2></summary>
 
-3. Delete either `.github/workflows/gh-pages-docs.yml` or `.github/workflows/gh-pages.yml`, depending on whether you want to deploy an example or docs to github pages.
+<!-- toc -->
 
-4. __Edit things__
-    * Use `./README.example.md` as a starter for docs:
-    ```sh
-    cp ./README.example.md ./README.md
-    ```
-    * edit the [build-example](https://github.com/nichoth/template-web-component/blob/c580636f1c912fe2633f7c2478f28b11729c9b80/package.json#L20) command in `package.json` so that it has the right
-    namespace for github pages
+- [Install](#install)
+- [API](#api)
+  * [`MetaImage`](#metaimage)
+  * [`metas`](#metas)
+- [Example](#example)
+- [Modules](#modules)
+  * [ESM](#esm)
+  * [Common JS](#common-js)
+  * [pre-built JS](#pre-built-js)
 
-## featuring
+<!-- tocstop -->
 
-* compile the source to both ESM and CJS format, and put compiled files in `dist`.
-* ignore `dist` and `*.js` in git, but don't ignore them in npm. That way we
-  don't commit any compiled code to git, but it is available to consumers.
-* use npm's `prepublishOnly` hook to compile the code before publishing to npm.
-* use [exports](./package.json#L41) field in `package.json` to make sure the right format is used
-  by consumers.
-* `preversion` npm hook -- lint
-* `postversion` npm hook -- `git push --follow-tags && npm publish`
-* eslint -- `npm run lint`
-* tests run in a browser environment via `tape-run` -- see [`npm test`](./package.json#L12).
-  Includes `tap` testing tools -- [tapzero](https://github.com/bicycle-codes/tapzero)
-  and [tap-spec](https://www.npmjs.com/package/tap-spec)
-* CI via github actions
+</details>
+
+## Install
+
+```sh
+npm i -S @substrate-system/meta-tags
+```
+
+## API
+
+### `MetaImage`
+
+Use Cloudinary to generate an image URL optimized for Open Graph meta tags.
+Creates 1200x627px images.
+
+```ts
+function MetaImage ({ cloudName, filename, text }:{
+    cloudName:string;
+    filename:string;
+    text?:string;
+}):string
+```
+
+#### Without text overlay
+
+```js
+import { MetaImage } from '@substrate-system/meta-tags'
+
+const imageUrl = MetaImage({
+    cloudName: 'my-cloud',
+    filename: 'my-image.jpg'
+})
+// => https://res.cloudinary.com/my-cloud/image/upload/w_1200,h_627,c_fit,q_auto,f_auto/my-image.jpg
+```
+
+#### With text overlay
+
+When text is provided, creates a 1200x800px canvas with:
+- 50px top padding
+- Image fitted to 1200x500px
+- White background
+- Text overlay positioned at the bottom
+
+```js
+const imageUrl = MetaImage({
+    cloudName: 'my-cloud',
+    filename: 'cube.png',
+    text: 'Hello World'
+})
+// Generates a URL with text overlay
+```
+
+### `metas`
+
+Generate an array of Open Graph meta tag strings.
+
+```ts
+function metas (opts:{
+    title:string;
+    description:string;
+    image?:string;
+    type?:string;
+    name?:string;
+    url?:string;
+}):string[]
+```
+
+#### Example
+
+```js
+import { metas } from '@substrate-system/meta-tags'
+
+const metaTags = metas({
+    title: 'My Page Title',
+    description: 'A description of my page',
+    image: 'https://example.com/image.jpg',
+    type: 'website',
+    name: 'My Site Name',
+    url: 'https://example.com/page'
+})
+
+// Returns an array of meta tag strings:
+// [
+//   '<meta property="og:title" content="My Page Title" />',
+//   '<meta property="og:type" content="website" />',
+//   '<meta name="og:site_name" content="My Site Name"></meta>',
+//   '<meta property="og:url" name="og:url" content="https://example.com/page" />',
+//   '<meta property="og:image" content="https://example.com/image.jpg" />',
+//   '<meta property="og:description" content="A description of my page" name="description" />'
+// ]
+```
+
+## Example
+
+Generate meta tags with a Cloudinary image:
+
+```js
+import { MetaImage, metas } from '@substrate-system/meta-tags'
+
+const imageUrl = MetaImage({
+    cloudName: 'my-cloud',
+    filename: 'banner.jpg',
+    text: 'Welcome to My Site'
+})
+
+const metaTags = metas({
+    title: 'My Awesome Page',
+    description: 'Learn about awesome things',
+    image: imageUrl,
+    type: 'website',
+    url: 'https://example.com'
+})
+
+// Insert into your HTML
+metaTags.forEach(tag => {
+    // Append to document head or use server-side
+})
+```
+
+## Modules
+
+This exposes ESM and common JS via [package.json `exports` field](https://nodejs.org/api/packages.html#exports).
+
+### ESM
+
+```js
+import { MetaImage, metas } from '@substrate-system/meta-tags'
+```
+
+### Common JS
+```js
+const { MetaImage, metas } = require('@substrate-system/meta-tags')
+```
+
+### pre-built JS
+This package exposes minified JS files.
+Copy them to a location accessible to your web server,
+then link to them in HTML.
+
+#### copy
+```sh
+cp ./node_modules/@substrate-system/meta-tags/dist/index.min.js ./public/meta-tags.min.js
+```
+
+#### HTML
+```html
+<script type="module" src="./meta-tags.min.js"></script>
+```
