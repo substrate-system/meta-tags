@@ -20,7 +20,7 @@ media previews.
 - [API](#api)
   * [`MetaImage`](#metaimage)
   * [`metas`](#metas)
-- [Example](#example)
+- [Example](#example-1)
 - [Modules](#modules)
   * [ESM](#esm)
   * [Common JS](#common-js)
