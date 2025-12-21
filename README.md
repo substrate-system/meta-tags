@@ -57,7 +57,7 @@ npx metas
 ```html
 <meta property="og:title" content="placeholder" />
 <meta property="og:type" content="placeholder" />
-<meta name="og:site_name" content="placeholder" />
+<meta property="og:site_name" content="placeholder" />
 <meta property="og:url" name="og:url" content="placeholder" />
 <meta property="og:image" content="placeholder" />
 <meta property="og:description" content="placeholder" name="description" />
@@ -159,16 +159,6 @@ const metaTags = metas({
     name: 'My Site Name',
     url: 'https://example.com/page'
 })
-
-// Returns an array of meta tag strings:
-// [
-//   '<meta property="og:title" content="My Page Title" />',
-//   '<meta property="og:type" content="website" />',
-//   '<meta name="og:site_name" content="My Site Name"></meta>',
-//   '<meta property="og:url" name="og:url" content="https://example.com/page" />',
-//   '<meta property="og:image" content="https://example.com/image.jpg" />',
-//   '<meta property="og:description" content="A description of my page" name="description" />'
-// ]
 ```
 
 ## Example

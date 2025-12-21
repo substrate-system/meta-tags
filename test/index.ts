@@ -94,7 +94,7 @@ test('metas function', t => {
         'should include title tag')
     t.ok(tags[1].includes('<meta property="og:type" content="website"'),
         'should include type tag')
-    t.ok(tags[2].includes('<meta name="og:site_name" content="My Site"'),
+    t.ok(tags[2].includes('<meta property="og:site_name" content="My Site"'),
         'should include site name tag')
     const tag = '<meta property="og:url" name="og:url" content="https://example.com/page"'
     t.ok(tags[3].includes(tag), 'should include URL tag')
