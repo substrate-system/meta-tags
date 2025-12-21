@@ -57,7 +57,7 @@ npx metas
 ```html
 <meta property="og:title" content="placeholder" />
 <meta property="og:type" content="placeholder" />
-<meta name="og:site_name" content="placeholder" />
+<meta property="og:site_name" content="placeholder" />
 <meta property="og:url" name="og:url" content="placeholder" />
 <meta property="og:image" content="placeholder" />
 <meta property="og:description" content="placeholder" name="description" />
