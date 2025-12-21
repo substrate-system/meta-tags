@@ -1,6 +1,6 @@
 {
   "name": "@substrate-system/meta-tags",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Meta tags for the internet",
   "type": "module",
   "exports": {
