@@ -5,7 +5,6 @@
 [![semantic versioning](https://img.shields.io/badge/semver-2.0.0-blue?logo=semver&style=flat-square)](https://semver.org/)
 [![Common Changelog](https://nichoth.github.io/badge/common-changelog.svg)](./CHANGELOG.md)
 [![install size](https://flat.badgen.net/packagephobia/install/@substrate-system/meta-tags)](https://packagephobia.com/result?p=@substrate-system/meta-tags)
-[![dependencies](https://img.shields.io/badge/dependencies-zero-brightgreen.svg?style=flat-square)](package.json)
 [![license](https://img.shields.io/badge/license-Big_Time-blue?style=flat-square)](LICENSE)
 
 
@@ -17,6 +16,9 @@ media previews.
 <!-- toc -->
 
 - [Install](#install)
+- [CLI](#cli)
+  * [Output placeholder meta tags](#output-placeholder-meta-tags)
+  * [Generate a Cloudinary image URL](#generate-a-cloudinary-image-url)
 - [API](#api)
   * [`MetaImage`](#metaimage)
   * [`metas`](#metas)
@@ -35,6 +37,55 @@ media previews.
 ```sh
 npm i -S @substrate-system/meta-tags
 ```
+
+## CLI
+
+Run with `npx` if it is installed locally.
+
+```sh
+npx metas
+```
+
+### Output placeholder meta tags
+
+Run without arguments to output all meta tags with placeholder values.
+
+```sh
+npx metas
+```
+
+```html
+<meta property="og:title" content="placeholder" />
+<meta property="og:type" content="placeholder" />
+<meta name="og:site_name" content="placeholder" />
+<meta property="og:url" name="og:url" content="placeholder" />
+<meta property="og:image" content="placeholder" />
+<meta property="og:description" content="placeholder" name="description" />
+```
+
+### Generate a Cloudinary image URL
+
+Use the `image` command to generate a Cloudinary meta image URL:
+
+```sh
+npx @substrate-system/meta-tags image --cloud-name mycloud --filename image.jpg
+
+# https://res.cloudinary.com/mycloud/image/upload/w_1200,h_627,c_fit,q_auto,f_auto/image.jpg
+```
+
+With a text overlay:
+
+```sh
+npx @substrate-system/meta-tags image -c mycloud -f image.jpg -t "Hello World"
+```
+
+#### Options
+
+| Option | Alias | Description | Required |
+|--------|-------|-------------|----------|
+| `--cloud-name` | `-c` | Cloudinary cloud name | Yes |
+| `--filename` | `-f` | Image filename (including extension) | Yes |
+| `--text` | `-t` | Optional text overlay | No |
 
 ## API
 

@@ -18,7 +18,7 @@ export function metas ({
     return [
         `<meta property="og:title" content="${title}" />`,
         type ? `<meta property="og:type" content="${type}" />` : '',
-        name ? `<meta name="og:site_name" content="${name}"></meta>` : '',
+        name ? `<meta name="og:site_name" content="${name}" />` : '',
         url ? `<meta property="og:url" name="og:url" content="${url}" />` : '',
         image ? `<meta property="og:image" content="${image}" />` : '',
         description ? `<meta property="og:description" content="${description}" name="description" />` : '',
